@@ -14,6 +14,10 @@ export const translations = {
     noActiveTodos: 'No active todos',
     noCompletedTodos: 'No completed todos',
     builtWith: 'Built with React + TypeScript + Vite + Tailwind CSS',
+    signInWithGoogle: 'Sign in with Google',
+    signInWithApple: 'Sign in with Apple',
+    signOut: 'Sign out',
+    welcomeMessage: 'Sign in to save your todos',
   },
   ja: {
     title: 'Todoアプリ',
@@ -30,6 +34,10 @@ export const translations = {
     noActiveTodos: '未完了のタスクはありません',
     noCompletedTodos: '完了済みのタスクはありません',
     builtWith: 'React + TypeScript + Vite + Tailwind CSS で構築',
+    signInWithGoogle: 'Googleでログイン',
+    signInWithApple: 'Appleでログイン',
+    signOut: 'ログアウト',
+    welcomeMessage: 'ログインしてTodoを保存',
   },
 } as const
 

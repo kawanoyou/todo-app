@@ -3,7 +3,9 @@ import { useTodos } from './hooks/useTodos'
 import { TodoForm } from './components/TodoForm'
 import { TodoItem } from './components/TodoItem'
 import { LanguageSwitcher } from './components/LanguageSwitcher'
+import { AuthButtons, UserMenu } from './components/AuthButtons'
 import { useI18n } from './i18n/useI18n'
+import { useAuth } from './auth/useAuth'
 
 type Filter = 'all' | 'active' | 'completed'
 
@@ -11,6 +13,7 @@ function App() {
   const { todos, addTodo, toggleTodo, deleteTodo, editTodo } = useTodos()
   const [filter, setFilter] = useState<Filter>('all')
   const { t } = useI18n()
+  const { user, loading } = useAuth()
 
   const filteredTodos = todos.filter((todo) => {
     if (filter === 'active') return !todo.completed
@@ -33,6 +36,40 @@ function App() {
     completed: t('noCompletedTodos'),
   }
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-8 px-4">
+        <div className="max-w-md mx-auto">
+          <div className="flex justify-end mb-4">
+            <LanguageSwitcher />
+          </div>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+            <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-2">
+              {t('title')}
+            </h1>
+            <p className="text-center text-gray-500 dark:text-gray-400 mb-8">
+              {t('welcomeMessage')}
+            </p>
+            <div className="flex justify-center">
+              <AuthButtons />
+            </div>
+          </div>
+          <p className="text-center text-gray-500 dark:text-gray-400 text-sm mt-6">
+            {t('builtWith')}
+          </p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-8 px-4">
       <div className="max-w-2xl mx-auto">
@@ -40,7 +77,10 @@ function App() {
           <h1 className="text-4xl font-bold text-gray-800 dark:text-white">
             {t('title')}
           </h1>
-          <LanguageSwitcher />
+          <div className="flex items-center gap-4">
+            <UserMenu />
+            <LanguageSwitcher />
+          </div>
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
